@@ -1,10 +1,12 @@
+
+
 class CommandParseException implements Exception {
   final String message;
   CommandParseException({required this.message});
 }
 
 class CmdParser {
-  static ParsedCommand parse(String raw) {
+  ParsedCommand parse(String raw) {
     List<String> args = [];
     int start = 0;
     bool quotes = false;
@@ -33,9 +35,4 @@ class ParsedCommand {
   final List<String> args;
 
   ParsedCommand({required this.command, required this.args});
-
-  @override
-  String toString() {
-    return "command: $command, args: ${args.isEmpty ? "[]" : args.map((e) => "[${args.indexOf(e)}] - $e").join("\n")}";
-  }
 }

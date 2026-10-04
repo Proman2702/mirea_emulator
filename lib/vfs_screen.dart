@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mirea_emulator/cmd_parser.dart';
+import 'package:mirea_emulator/shell.dart';
 
 enum TerminalEntryType { command, output, error }
 
@@ -15,7 +18,17 @@ class TerminalEntryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(padding: EdgeInsets.all(4), child: Text(entry.text));
+    return Container(
+      padding: EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: switch (entry.type) {
+          TerminalEntryType.command => Colors.blue,
+          TerminalEntryType.output => Colors.green,
+          TerminalEntryType.error => Colors.red,
+        },
+      ),
+      child: Text(entry.text),
+    );
   }
 }
 
@@ -27,13 +40,26 @@ class VFSScreen extends StatefulWidget {
 }
 
 class _VFSScreenState extends State<VFSScreen> {
-  TextEditingController controller = TextEditingController();
+  TextEditingController textEditingController = TextEditingController();
+  ScrollController scrollController = ScrollController();
   final List<TerminalEntry> entries = [];
 
   @override
   void dispose() {
-    controller.dispose();
+    textEditingController.dispose();
+    scrollController.dispose();
     super.dispose();
+  }
+
+  TerminalEntry parseCommand(String command) {
+    Shell shell = Shell();
+    try {
+      return TerminalEntry(text: shell.execute(textEditingController.text).toString(), type: TerminalEntryType.output);
+    } on CommandParseException catch (e) {
+      return TerminalEntry(text: "Error: ${e.message}", type: TerminalEntryType.error);
+    } on ExitCommandException {
+      exit(0);
+    }
   }
 
   @override
@@ -52,19 +78,22 @@ class _VFSScreenState extends State<VFSScreen> {
                   child: ListView.builder(
                     itemBuilder: (context, id) => TerminalEntryWidget(entry: entries[id]),
                     itemCount: entries.length,
+                    controller: scrollController,
                   ),
                 ),
               ),
 
               TextField(
-                controller: controller,
+                decoration: InputDecoration(label: Text("Type a command:")),
+                controller: textEditingController,
                 onSubmitted: (String command) {
                   setState(() {
                     entries.add(TerminalEntry(text: command, type: TerminalEntryType.command));
-                    entries.add(
-                      TerminalEntry(text: CmdParser.parse(command).toString(), type: TerminalEntryType.output),
-                    );
-                    controller.clear();
+                    entries.add(parseCommand(command));
+                    textEditingController.clear();
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+                    });
                   });
                 },
               ),
