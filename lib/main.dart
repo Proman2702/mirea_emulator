@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:mirea_emulator/app.dart';
+import 'package:mirea_emulator/vfs/vfs.dart';
 
 void main(List<String> args) {
   if (args.length != 2) {
@@ -24,5 +25,15 @@ void main(List<String> args) {
     print("VFS file does not exist");
     exit(1);
   }
-  runApp(App(vfsPath: vfsPath, scriptPath: scriptPath));
+
+  late final Vfs vfs;
+
+  try {
+    vfs = Vfs.fromZip(vfsPath);
+  } catch (e) {
+    print("Failed to load VFS file");
+    exit(1);
+  }
+
+  runApp(App(vfs: vfs, scriptPath: scriptPath));
 }

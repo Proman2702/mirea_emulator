@@ -7,10 +7,9 @@ import 'package:mirea_emulator/terminal/cubit/terminal_state.dart';
 import 'package:mirea_emulator/terminal/models/terminal_entry.dart';
 
 class TerminalCubit extends Cubit<TerminalState> {
-  TerminalCubit(this.shell, {required this.vfsPath, required this.scriptPath}) : super(TerminalState(entries: []));
+  TerminalCubit(this.shell, {required this.scriptPath}) : super(TerminalState(entries: []));
 
   final Shell shell;
-  final String vfsPath;
   final String scriptPath;
 
   void _addEntry(TerminalEntry entry) {

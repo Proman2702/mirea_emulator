@@ -1,9 +1,12 @@
 import 'package:mirea_emulator/shell/cmd_parser.dart';
 import 'package:mirea_emulator/shell/exceptions.dart';
-
-
+import 'package:mirea_emulator/vfs/vfs.dart';
 
 class Shell {
+  final Vfs vfs;
+
+  Shell(this.vfs);
+
   CmdParser parser = CmdParser();
 
   String execute(String raw) {
