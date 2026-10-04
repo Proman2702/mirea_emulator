@@ -13,7 +13,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BlocProvider(create: (_) => TerminalCubit(Shell()), child: VFSScreen()),
+      home: BlocProvider(
+        create: (_) => TerminalCubit(Shell(), vfsPath: vfsPath, scriptPath: scriptPath)..executeScript(),
+        child: VFSScreen(),
+      ),
     );
   }
 }

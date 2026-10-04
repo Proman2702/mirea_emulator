@@ -1,0 +1,11 @@
+cd a
+cd a
+help
+
+
+
+
+
+ls b
+help
+cd a b c

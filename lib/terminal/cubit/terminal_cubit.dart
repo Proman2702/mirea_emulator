@@ -7,9 +7,11 @@ import 'package:mirea_emulator/terminal/cubit/terminal_state.dart';
 import 'package:mirea_emulator/terminal/models/terminal_entry.dart';
 
 class TerminalCubit extends Cubit<TerminalState> {
-  TerminalCubit(this.shell) : super(TerminalState(entries: []));
+  TerminalCubit(this.shell, {required this.vfsPath, required this.scriptPath}) : super(TerminalState(entries: []));
 
   final Shell shell;
+  final String vfsPath;
+  final String scriptPath;
 
   void _addEntry(TerminalEntry entry) {
     emit(TerminalState(entries: [...state.entries, entry]));
@@ -24,6 +26,13 @@ class TerminalCubit extends Cubit<TerminalState> {
       _addEntry(TerminalEntry(text: e.message, type: TerminalEntryType.error));
     } on ExitCommandException {
       exit(0);
+    }
+  }
+
+  void executeScript() {
+    final List<String> lines = File(scriptPath).readAsLinesSync();
+    for (final String line in lines) {
+      if (line.trim().isNotEmpty) executeCommand(line);
     }
   }
 }
