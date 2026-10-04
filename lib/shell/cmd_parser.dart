@@ -1,9 +1,8 @@
 
 
-class CommandParseException implements Exception {
-  final String message;
-  CommandParseException({required this.message});
-}
+
+
+import 'package:mirea_emulator/shell/exceptions.dart';
 
 class CmdParser {
   ParsedCommand parse(String raw) {
@@ -29,6 +28,7 @@ class CmdParser {
     return ParsedCommand(command: args[0], args: args.sublist(1));
   }
 }
+
 
 class ParsedCommand {
   final String command;

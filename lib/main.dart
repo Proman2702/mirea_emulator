@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mirea_emulator/vfs_screen.dart';
+import 'package:mirea_emulator/terminal/ui/vfs_screen.dart';
 
-void main() {
+void main(List<String> args) {
   runApp(VFSScreen());
 }

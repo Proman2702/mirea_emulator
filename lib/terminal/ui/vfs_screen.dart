@@ -1,36 +1,13 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:mirea_emulator/cmd_parser.dart';
-import 'package:mirea_emulator/shell.dart';
+import 'package:mirea_emulator/shell/exceptions.dart';
+import 'package:mirea_emulator/shell/shell.dart';
+import 'package:mirea_emulator/terminal/models/terminal_entry.dart';
+import 'package:mirea_emulator/terminal/ui/terminal_entry_widget.dart';
 
-enum TerminalEntryType { command, output, error }
 
-class TerminalEntry {
-  final String text;
-  final TerminalEntryType type;
-  TerminalEntry({required this.text, required this.type});
-}
 
-class TerminalEntryWidget extends StatelessWidget {
-  final TerminalEntry entry;
-  const TerminalEntryWidget({required this.entry, super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: switch (entry.type) {
-          TerminalEntryType.command => Colors.blue,
-          TerminalEntryType.output => Colors.green,
-          TerminalEntryType.error => Colors.red,
-        },
-      ),
-      child: Text(entry.text),
-    );
-  }
-}
 
 class VFSScreen extends StatefulWidget {
   const VFSScreen({super.key});

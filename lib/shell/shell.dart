@@ -1,6 +1,7 @@
-import 'package:mirea_emulator/cmd_parser.dart';
+import 'package:mirea_emulator/shell/cmd_parser.dart';
+import 'package:mirea_emulator/shell/exceptions.dart';
 
-class ExitCommandException implements Exception {}
+
 
 class Shell {
   CmdParser parser = CmdParser();
