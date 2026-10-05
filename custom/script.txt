@@ -1,15 +1,44 @@
 ls
-cd folder
-ls
-cd ..
-cd /
-cd nonexistent
-cd hach.py
-cd folder/inner
-cd ..
 uptime
 history
-ls abc
-cd
-cd a b
-cd hach.py/something
+cd folder1
+ls
+cd folder3
+ls
+
+cd ..
+chown pavel file3.txt
+chown admin folder3
+ls
+
+rm file4.txt
+ls
+cd /folder1/folder3
+ls
+chown user file5.txt
+ls
+cd /
+ls
+rm file2.txt
+ls
+rm folder1/folder2
+cd folder1
+ls
+cd /
+rm folder1/folder3
+cd folder1
+ls
+cd /
+cd nonexistent
+cd file1.txt
+ls argument
+rm nonexistent
+rm /
+rm
+rm one two
+chown user nonexistent
+chown
+chown user
+chown user file1.txt extra
+history
+uptime

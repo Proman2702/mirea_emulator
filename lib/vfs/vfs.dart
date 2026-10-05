@@ -27,6 +27,22 @@ class Vfs {
     return current;
   }
 
+  void changeOwner(String path, String owner) {
+    final object = getObject(path);
+    object.owner = owner;
+  }
+
+  void removeObject(String path) {
+    final directory = path.split("/").where((part) => part.isNotEmpty).toList();
+    if (directory.isEmpty) {
+      throw VfsException(message: "Cannot remove root directory");
+    }
+
+    getObject(path);
+    final parent = getObject("/${directory.sublist(0, directory.length - 1).join("/")}");
+    parent.children!.remove(directory.last);
+  }
+
   factory Vfs.fromZip(String path) {
     final bytes = File(path).readAsBytesSync();
     final archive = ZipDecoder().decodeBytes(bytes);
