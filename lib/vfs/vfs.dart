@@ -1,12 +1,31 @@
 import 'dart:io';
 import 'package:archive/archive.dart';
+import 'package:mirea_emulator/exceptions.dart';
 
 import 'package:mirea_emulator/vfs/vfs_object.dart';
 
 class Vfs {
-  final VfsObject root;
+  final VfsObject root = VfsObject.directory(name: "/");
 
-  Vfs() : root = VfsObject.directory(name: "/");
+  Vfs();
+
+  VfsObject getObject(String path) {
+    final directory = path.split("/").where((part) => part.isNotEmpty).toList();
+    VfsObject current = root;
+    for (int i = 0; i < directory.length; i++) {
+      if (current.type == VfsObjectType.file) {
+        throw VfsException(message: "File is not a directory");
+      }
+
+      if (!current.children!.containsKey(directory[i])) {
+        throw VfsException(message: "No such file or directory");
+      }
+
+      current = current.children![directory[i]]!;
+    }
+
+    return current;
+  }
 
   factory Vfs.fromZip(String path) {
     final bytes = File(path).readAsBytesSync();

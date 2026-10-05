@@ -1,11 +1,15 @@
-cd a
-cd a
-help
-
-
-
-
-
-ls b
-help
-cd a b c
+ls
+cd folder
+ls
+cd ..
+cd /
+cd nonexistent
+cd hach.py
+cd folder/inner
+cd ..
+uptime
+history
+ls abc
+cd
+cd a b
+cd hach.py/something

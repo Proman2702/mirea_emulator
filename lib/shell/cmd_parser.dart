@@ -2,7 +2,7 @@
 
 
 
-import 'package:mirea_emulator/shell/exceptions.dart';
+import 'package:mirea_emulator/exceptions.dart';
 
 class CmdParser {
   ParsedCommand parse(String raw) {
