@@ -1,1 +1,1 @@
-flutter run -d windows --dart-entrypoint-args=custom/vfs.zip,custom/script.txt
+flutter run -d windows -a custom/vfs.zip -a custom/script.txt

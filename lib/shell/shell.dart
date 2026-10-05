@@ -30,7 +30,11 @@ class Shell {
     final vfsObject = vfs.getObject(path);
 
     return vfsObject.children!.entries
-        .map((e) => e.value.type == VfsObjectType.directory ? "${e.key}/    ${e.value.owner}" : "${e.key}    ${e.value.owner}")
+        .map(
+          (e) => e.value.type == VfsObjectType.directory
+              ? "${e.key}/    ${e.value.owner}"
+              : "${e.key}    ${e.value.owner}",
+        )
         .join("\n");
   }
 
@@ -65,7 +69,10 @@ class Shell {
       throw CommandParseException(message: "rm command takes only 1 argument");
     }
 
-    vfs.removeObject(_resolvePath(command.args[0]));
+    final path = _resolvePath(command.args[0]);
+    vfs.removeObject(path);
+
+    if (path == "/${currentPath.join("/")}") currentPath.removeLast();
 
     return "Removed ${command.args[0]}";
   }
